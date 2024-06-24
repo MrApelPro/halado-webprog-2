@@ -1,0 +1,42 @@
+<h3>Create new event</h3>
+<p>
+  <a [routerLink]="['/events']" class="p-button">Go back</a>
+</p>
+@if (eventForm.errors?.sameValue && (eventForm.touched || eventForm.dirty)){
+  <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+}
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit(eventForm.value)">
+  <p-fieldset legend="Event data">
+    <div class="flex flex-column gap-2 mb-2">
+      <label for="name">Event's name</label>
+      <input pInputText id="name" aria-describedby="name-help" formControlName="name" />
+      @if (name.dirty && name.invalid) {
+        <small class="text-red-500">{{getNameErrorMessage()}}</small>
+      } @else {
+        <small id="name-help">Give the event a name!</small>
+      }
+    </div>
+    <div class="flex flex-column gap-2 mb-2">
+      <label for="start">Event's start time</label>
+      <p-calendar formControlName="start" [showTime]="true" id="start" aria-describedby="start-help" dateFormat="yy.mm.dd"></p-calendar>
+      @if (start.invalid) {
+        <small class="text-red-500">{{getStartErrorMessage()}}</small>
+      } @else {
+        <small id="name-help">Give the event a start time!</small>
+      }
+    </div>
+    <div class="flex flex-column gap-2 mb-2">
+      <label for="description">Event's description</label>
+      <textarea rows="5" cols="30" pInputTextarea id="description" aria-describedby="description-help" formControlName="description"></textarea>
+      @if (start.invalid) {
+        <small class="text-red-500">{{getDescriptionErrorMessage()}}</small>
+      } @else {
+        <small id="description-help">Give the event a description!</small>
+      }
+    </div>
+    <p-button type="submit" label="Submit" [disabled]="eventForm.invalid"></p-button>
+  </p-fieldset>
+</form>
+<p>
+  Form Status: {{ eventForm.status }}
+</p>
